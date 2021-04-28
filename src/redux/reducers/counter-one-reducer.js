@@ -5,8 +5,13 @@ import {
     RESET,
 } from '../action-types';
 
-const initialState = {
-    counter: 0
+const initFromLocalStorage = localStorage.getItem('counter1');
+
+
+const initialState = initFromLocalStorage ? JSON.parse(initFromLocalStorage) : {
+    counter: 0,
+    // isAllowedToChange: false
+    isAllowedToChange: true
 }
 
 // const reducer = (state = {counter: 0}, action) => {

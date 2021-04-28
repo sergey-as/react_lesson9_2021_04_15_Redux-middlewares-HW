@@ -1,6 +1,6 @@
 // https://www.youtube.com/watch?v=_ZK-FWGWRdk
-// RRedux-middlewares-async
-// 10:00
+// Redux-middlewares-async
+// 35:01
 
 import './App.css';
 import {useEffect} from 'react';
@@ -66,6 +66,15 @@ const PhotosList = () => {
     )
 }
 
+const Products = () => {
+
+    return (
+        <h1>
+            products list
+        </h1>
+    )
+}
+
 export default function App() {
     // const store = useSelector((store) => {
     //     console.log('app store',store);
@@ -93,19 +102,23 @@ export default function App() {
 
     return (
         <div className="App">
-            {!(counter1 % 2) && <PhotosList/>}
-
-            <h1>{counter1} - 1</h1>
-            <h1>{counter2} - 2</h1>
             {/*<button onClick={() => dispatch({type: INC_CUSTOM, payload: 102})}>inc custom</button>*/}
             {/*<button onClick={() => dispatch({type: INC})}>inc</button>*/}
             {/*<button onClick={() => dispatch({type: DEC})}>dec</button>*/}
             {/*<button onClick={() => dispatch({type: RESET})}>reset</button>*/}
 
-            <button onClick={() => dispatch(incCustomAction(102))}>inc custom</button>
-            <button onClick={() => dispatch(incAction())}>inc</button>
-            <button onClick={() => dispatch(decAction())}>dec</button>
-            <button onClick={() => dispatch(resetAction())}>reset</button>
+            {/*<button onClick={() => dispatch(incCustomAction(102))}>inc custom</button>*/}
+            {/*<button onClick={() => dispatch(incAction())}>inc</button>*/}
+            {/*<button onClick={() => dispatch(decAction())}>dec</button>*/}
+            {/*<button onClick={() => dispatch(resetAction())}>reset</button>*/}
+
+            {/*<h1>{counter1} - 1</h1>*/}
+            {/*<h1>{counter2} - 2</h1>*/}
+            {/*<br/>*/}
+            {/*{!(counter1 % 2) && <PhotosList/>}*/}
+            <br/>
+
+            <Products/>
         </div>
     );
 }

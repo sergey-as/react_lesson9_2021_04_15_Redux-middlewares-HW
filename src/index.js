@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 
 // https://www.youtube.com/watch?v=_ZK-FWGWRdk
 // Redux-middlewares-async
+// 16:01
 
 import {createStore} from "redux";
 import {Provider} from "react-redux";
