@@ -1,6 +1,12 @@
 // https://www.youtube.com/watch?v=_ZK-FWGWRdk
 // Redux-middlewares-async
-// 47:01
+// hw:
+// 1. Написати усе, що було у лекції - ОК
+// 2. Кожному товару додати кнопку "Add to wishlist" та "Add to Shopping Cart"
+// після кліку та додавання кнопки змінюють колір
+// при повторному кліку вилучаємо з (корзини, вішліста)
+// 3. header: count in wishlist, count in Shopping Cart, total summa in wishlist, total summa in Shopping Cart
+// 4!!! зберегти це все на localStorage (через middleware, або не через middleware, або на рівні action
 
 import './App.css';
 import {useEffect} from 'react';
@@ -18,6 +24,7 @@ import {
     startProductsLoading,
     endProductsLoading,
     setProducts,
+    loadProducts,
 } from './redux/action-creators'
 
 import {store} from "./redux";
@@ -74,36 +81,72 @@ const PhotosList = () => {
 
 const Products = () => {
     const {products, isLoading} = useSelector(store => store.products);
-
-    console.log('products', products, 'isLoading', isLoading);
-
+    // console.log('products', products, 'isLoading', isLoading);
     const dispatch = useDispatch();
 
-    const fetchProducts = async () => {
-        try {
-            const resp = await fetch('https://fakestoreapi.com/products');
-            const json = await resp.json();
+    // const error = () => {
+    //     // throw new Error()
+    //     // undefined();
+    //     try {
+    //         throw new Error();
+    //         console.log('TRY');
+    //         // return
+    //     } catch (e) {
+    //         console.log(e);
+    //         console.log('CATCH');
+    //         // return;
+    //     } finally {
+    //         console.log('FINALLY');
+    //     }
+    //     console.log('FINALLY...');
+    // }
+    // error();
 
-            dispatch(setProducts(json));
-
-            console.log(json);
-        } catch (e) {
-            console.error(e);
-        }
-    }
+    // const fetchProducts = async () => {
+    //
+    //     try {
+    //         dispatch(startProductsLoading());
+    //         const resp = await fetch('https://fakestoreapi.com/products');
+    //         const json = await resp.json();
+    //
+    //         dispatch(setProducts(json));
+    //
+    //         // console.log(json);
+    //     } catch (e) {
+    //         console.error(e);
+    //     } finally {
+    //         dispatch(endProductsLoading());
+    //     }
+    // }
 
     useEffect(() => {
-        fetchProducts();
+        // fetchProducts();
+        // setProducts();
+        dispatch(loadProducts());
     }, []);
 
     // 50:58
     return (
-        <h1>
+        <div>
+            <h1>
+                products list
+            </h1>
             {isLoading && (
                 <h1 style={{color: 'red'}}>LOADING</h1>
             )}
-            products list
-        </h1>
+
+            {!isLoading && !!products.length && (
+                products.map(el => (
+              <div key={el.id} style={{width: '50%', margin: '10px auto'}}>
+                  <h3>{el.id} - {el.category} - {el.title}</h3>
+                  <h4>{el.price}</h4>
+                  <h4>{el.description}</h4>
+                  <img style={{width: '100%'}} src={el.image} alt={el.title}/>
+                  <hr/>
+              </div>
+                ))
+            )}
+        </div>
     )
 }
 
@@ -112,19 +155,20 @@ export default function App() {
     //     console.log('app store',store);
     //     return store;
     // })
-
+    //
     // const counter = useSelector(({counter}) => {
     //      return counter;
     //  })
-
+    //
     // const store = useSelector((store) => store);
     // console.log('app store',store);
-
+    //
     // const counter = useSelector(({counter}) => counter);
     // const dispatch = useDispatch();
-
+    //
     // const counter1 = useSelector(({counter1: {counter}}) => counter);
     // const counter2 = useSelector(({counter2: {counter}}) => counter);
+
     const {counter1, counter2} = useSelector(({counter1, counter2}) => ({
         counter1: counter1.counter,
         counter2: counter2.counter,
