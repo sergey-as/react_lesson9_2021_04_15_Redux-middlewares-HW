@@ -1,29 +1,3 @@
-const INC_CUSTOM = 'INC_CUSTOM';
-const INC = 'INC';
-const DEC = 'DEC';
-const RESET = 'RESET';
-
-const INC_CUSTOM_TWO = 'INC_CUSTOM_TWO';
-const INC_TWO = 'INC_TWO';
-const DEC_TWO = 'DEC_TWO';
-const RESET_TWO = 'RESET_TWO';
-
-const ON_USERS_LOADED = 'ON_USERS_LOADED';
-const ON_ADD_TO_BAD = 'ON_ADD_TO_BAD';
-const ON_REMOVE_FROM_BAD = 'ON_REMOVE_FROM_BAD';
-
-export {
-    INC_CUSTOM,
-    INC,
-    DEC,
-    RESET,
-
-    INC_CUSTOM_TWO,
-    INC_TWO,
-    DEC_TWO,
-    RESET_TWO,
-
-    ON_USERS_LOADED,
-    ON_ADD_TO_BAD,
-    ON_REMOVE_FROM_BAD,
-}
+export * from './counter-one-action-types';
+export * from './counter-two-action-types';
+export * from './products-action-types';

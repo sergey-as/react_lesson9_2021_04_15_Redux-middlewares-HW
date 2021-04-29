@@ -1,6 +1,6 @@
 // https://www.youtube.com/watch?v=_ZK-FWGWRdk
 // Redux-middlewares-async
-// 35:01
+// 47:01
 
 import './App.css';
 import {useEffect} from 'react';
@@ -14,7 +14,13 @@ import {
     onUserLoaded,
     onAddToBad,
     onRemoveFromBad,
+
+    startProductsLoading,
+    endProductsLoading,
+    setProducts,
 } from './redux/action-creators'
+
+import {store} from "./redux";
 
 const PhotosList = () => {
     const dispatch = useDispatch();
@@ -51,9 +57,9 @@ const PhotosList = () => {
                     onClick={() => {
                         const alredyInList = badEmploees.includes(el.id)
                         const answer = !alredyInList && window.confirm('точно кікнути людну?')
-                        if (answer){
+                        if (answer) {
 
-                        return dispatch(onAddToBad(el.id))
+                            return dispatch(onAddToBad(el.id))
                         }
                         alredyInList && dispatch(onRemoveFromBad(el.id))
                     }
@@ -67,9 +73,35 @@ const PhotosList = () => {
 }
 
 const Products = () => {
+    const {products, isLoading} = useSelector(store => store.products);
 
+    console.log('products', products, 'isLoading', isLoading);
+
+    const dispatch = useDispatch();
+
+    const fetchProducts = async () => {
+        try {
+            const resp = await fetch('https://fakestoreapi.com/products');
+            const json = await resp.json();
+
+            dispatch(setProducts(json));
+
+            console.log(json);
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+    useEffect(() => {
+        fetchProducts();
+    }, []);
+
+    // 50:58
     return (
         <h1>
+            {isLoading && (
+                <h1 style={{color: 'red'}}>LOADING</h1>
+            )}
             products list
         </h1>
     )
