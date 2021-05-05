@@ -34,9 +34,10 @@ const persister = (store) => (next) => (action) => {
 
     next(action);
 
-    const {counter1} = store.getState();
-    // console.log(counter1);
+    const {counter1, wishlist, cart} = store.getState();
     localStorage.setItem('counter1', JSON.stringify(counter1))
+    localStorage.setItem('wishlist', JSON.stringify(wishlist))
+    localStorage.setItem('cart', JSON.stringify(cart))
 }
 
 // const customThunk = (store) => (next) => (action) => {
@@ -47,8 +48,7 @@ const persister = (store) => (next) => (action) => {
 //     }
 // }
 
-const middlewares = [thunk, protectCounter, /*logger,*/ persister];
-// const middlewares = [customThunk, protectCounter, /*logger,*/ persister];
+const middlewares = [thunk, protectCounter, logger, persister];
 
 export const store = createStore(
     reducer,

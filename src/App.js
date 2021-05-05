@@ -9,7 +9,7 @@
 // 4!!! зберегти це все на localStorage (через middleware, або не через middleware, або на рівні action
 
 import './App.css';
-import {useEffect} from 'react';
+import {useEffect, useMemo} from 'react';
 import {useSelector, useDispatch} from "react-redux";
 
 import {
@@ -25,11 +25,28 @@ import {
     endProductsLoading,
     setProducts,
     loadProducts,
+    toggleItemInCart,
+    toggleItemInWishlist,
 } from './redux/action-creators'
 
 import {store} from "./redux";
 
 const Header = () => {
+    const {products} = useSelector(store => store.products);
+    const {productsInCart} = useSelector(store => store.cart);
+    const {productsInWishlist} = useSelector(store => store.wishlist);
+
+    const culculatedCartSum = useMemo(() => {
+        return products
+            .filter(el => productsInCart.includes(el.id))
+            .reduce((acc, el) => acc += el.price, 0)
+    }, [products, productsInCart])
+
+    const culculatedWishlistSum = useMemo(() => {
+        return products
+            .filter(el => productsInWishlist.includes(el.id))
+            .reduce((acc, el) => acc += el.price, 0)
+    }, [products, productsInWishlist])
 
     return (
         <header>
@@ -37,11 +54,11 @@ const Header = () => {
 
             <div className="counters">
                 <span>
-                    wishlist: 0
+                    wishlist: {productsInWishlist.length} ($ {culculatedWishlistSum})
                 </span>
 
                 <span>
-                    cart: 0
+                    cart: {productsInCart.length} ($ {culculatedCartSum})
                 </span>
             </div>
         </header>
@@ -101,6 +118,8 @@ const PhotosList = () => {
 const Products = () => {
     const {products, isLoading} = useSelector(store => store.products);
     // console.log('products', products, 'isLoading', isLoading);
+    const {productsInCart} = useSelector(store => store.cart);
+    const {productsInWishlist} = useSelector(store => store.wishlist);
     const dispatch = useDispatch();
 
     // const error = () => {
@@ -160,8 +179,21 @@ const Products = () => {
                         <h4>{el.price}</h4>
                         <h4>{el.description}</h4>
 
-                        <button>add to wishlist</button>
-                        <button>add to cart</button>
+                        <button style={{
+                            backgroundColor: productsInWishlist.includes(el.id) ? 'red' : ''
+                        }}
+                                onClick={() => dispatch(toggleItemInWishlist(el.id))}
+                        >
+                            {productsInWishlist.includes(el.id) ? 'remove from wishlist' : 'add to wishlist'}
+                        </button>
+
+                        <button style={{
+                            backgroundColor: productsInCart.includes(el.id) ? 'red' : ''
+                        }}
+                                onClick={() => dispatch(toggleItemInCart(el.id))}
+                        >
+                            {productsInCart.includes(el.id) ? 'remove from cart' : 'add to cart'}
+                        </button>
 
                         <img style={{width: '100%'}} src={el.image} alt={el.title}/>
                         <hr/>

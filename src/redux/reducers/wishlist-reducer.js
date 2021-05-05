@@ -3,7 +3,9 @@ import {
     REMOVE_PRODUCT_FROM_WISHLIST,
 } from '../action-types';
 
-const initialState = {
+const initFromLocalStorage = localStorage.getItem('wishlist');
+
+const initialState = initFromLocalStorage ? JSON.parse(initFromLocalStorage) : {
     productsInWishlist: [],
 }
 
@@ -12,11 +14,13 @@ const reducer = (state = initialState, action) => {
         case ADD_PRODUCT_TO_WISHLIST: {
             return {
                 ...state,
+                productsInWishlist: [...state.productsInWishlist, action.payload]
             }
         }
         case REMOVE_PRODUCT_FROM_WISHLIST: {
             return {
                 ...state,
+                productsInWishlist: state.productsInWishlist.filter(el => action.payload !== el)
             }
         }
         default:

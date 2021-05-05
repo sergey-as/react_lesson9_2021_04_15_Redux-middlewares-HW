@@ -3,7 +3,9 @@ import {
     REMOVE_PRODUCT_FROM_CART,
 } from '../action-types';
 
-const initialState = {
+const initFromLocalStorage = localStorage.getItem('cart');
+
+const initialState = initFromLocalStorage ? JSON.parse(initFromLocalStorage) : {
     productsInCart: [],
 }
 
@@ -12,11 +14,13 @@ const reducer = (state = initialState, action) => {
         case ADD_PRODUCT_TO_CART: {
             return {
                 ...state,
+                productsInCart: [...state.productsInCart, action.payload]
             }
         }
         case REMOVE_PRODUCT_FROM_CART: {
             return {
                 ...state,
+                productsInCart: state.productsInCart.filter(el => action.payload !== el)
             }
         }
         default:
