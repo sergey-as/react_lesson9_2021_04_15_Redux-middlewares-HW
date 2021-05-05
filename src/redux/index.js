@@ -45,10 +45,7 @@ const persister = (store) => (next) => (action) => {
 //     }else {
 //         next(action)
 //     }
-//         //12:51
 // }
-
-// 25:00
 
 const middlewares = [thunk, protectCounter, /*logger,*/ persister];
 // const middlewares = [customThunk, protectCounter, /*logger,*/ persister];

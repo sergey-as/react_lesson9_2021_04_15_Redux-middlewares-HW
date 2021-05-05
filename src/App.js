@@ -29,6 +29,25 @@ import {
 
 import {store} from "./redux";
 
+const Header = () => {
+
+    return (
+        <header>
+            <h2>HEADER</h2>
+
+            <div className="counters">
+                <span>
+                    wishlist: 0
+                </span>
+
+                <span>
+                    cart: 0
+                </span>
+            </div>
+        </header>
+    )
+}
+
 const PhotosList = () => {
     const dispatch = useDispatch();
     const users = useSelector(({userReducer: {users}}) => users)
@@ -125,9 +144,8 @@ const Products = () => {
         dispatch(loadProducts());
     }, []);
 
-    // 50:58
     return (
-        <div>
+        <div className="product-wrapper">
             <h1>
                 products list
             </h1>
@@ -137,13 +155,17 @@ const Products = () => {
 
             {!isLoading && !!products.length && (
                 products.map(el => (
-              <div key={el.id} style={{width: '50%', margin: '10px auto'}}>
-                  <h3>{el.id} - {el.category} - {el.title}</h3>
-                  <h4>{el.price}</h4>
-                  <h4>{el.description}</h4>
-                  <img style={{width: '100%'}} src={el.image} alt={el.title}/>
-                  <hr/>
-              </div>
+                    <div key={el.id} className="product-item">
+                        <h3>{el.id} - {el.category} - {el.title}</h3>
+                        <h4>{el.price}</h4>
+                        <h4>{el.description}</h4>
+
+                        <button>add to wishlist</button>
+                        <button>add to cart</button>
+
+                        <img style={{width: '100%'}} src={el.image} alt={el.title}/>
+                        <hr/>
+                    </div>
                 ))
             )}
         </div>
@@ -193,7 +215,8 @@ export default function App() {
             {/*<br/>*/}
             {/*{!(counter1 % 2) && <PhotosList/>}*/}
             <br/>
-
+            <Header/>
+            <br/>
             <Products/>
         </div>
     );
